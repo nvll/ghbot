@@ -125,6 +125,6 @@ func startServer(parent chan bool, cfg Config, msg chan string) {
 		}
 
 		last_poll_time = time.Now()
-		time.Sleep(1 * time.Minute)
+		time.Sleep(time.Duration(cfg.PollTime) * time.Second)
 	}
 }
