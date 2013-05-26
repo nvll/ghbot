@@ -1,0 +1,9 @@
+{
+    "Server":			"irc.freenode.net",
+    "Port":				6667,
+    "Nick":				["ghbot", "gh_bot"],
+    "Channels":			["#somechannel"],
+	"Users":			["user1", "user2"],
+    "ClientId":			"put_client_id_here",
+	"ClientSecret":		"put_client_secret_here"
+}
