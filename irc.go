@@ -180,7 +180,7 @@ func irc(cfg Config, parent chan bool, msg chan string) {
 	for {
 		if s, err = reader.ReadString('\n'); err != nil {
 			println(err.Error())
-				return
+			return
 		}
 
 		ret = strings.Split(strings.Trim(s, "\r\n"), " ")
@@ -190,15 +190,15 @@ func irc(cfg Config, parent chan bool, msg chan string) {
 
 		log.Printf("prefix[%s] cmd[%s] params[%v]\n", prefix, cmd, params)
 		switch {
-			case prefix == "PING":
-				fmt.Fprintf(conn, "PONG %s\r\n", cmd)
-				fmt.Printf("PONG %s\r\n", cmd)
+		case prefix == "PING":
+			fmt.Fprintf(conn, "PONG %s\r\n", cmd)
+			fmt.Printf("PONG %s\r\n", cmd)
 
-			case cmd == RPL_ENDOFMOTD, cmd == ERR_NOMOTD:
-				for i := 0; i < len(cfg.Channels); i++ {
-					fmt.Fprintf(conn, "JOIN %s\r\n", cfg.Channels[i])
-				}
-				go msgListener(cfg, conn, msg)
+		case cmd == RPL_ENDOFMOTD, cmd == ERR_NOMOTD:
+			for i := 0; i < len(cfg.Channels); i++ {
+				fmt.Fprintf(conn, "JOIN %s\r\n", cfg.Channels[i])
+			}
+			go msgListener(cfg, conn, msg)
 		}
 	}
 
