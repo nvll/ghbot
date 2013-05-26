@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
 type Config struct {
@@ -23,9 +24,15 @@ func main() {
 	var cfg_blob []byte
 	var child = make(chan bool)
 	var msg = make(chan string)
+	var filename string
 
-	cfg_blob, err = ioutil.ReadFile("config.json")
-	if err != nil {
+	if (len(os.Args) > 1) {
+		filename = os.Args[1]
+	} else {
+		filename = "config.json"
+	}
+
+	if cfg_blob, err = ioutil.ReadFile(filename); err != nil {
 		log.Fatal("Couldn't open config")
 	}
 
