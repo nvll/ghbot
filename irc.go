@@ -187,8 +187,8 @@ func irc(cfg Config, parent chan bool, msg chan string) {
 		prefix = ret[0]
 		cmd = ret[1]
 		params = ret[2:]
+        _ = params
 
-		log.Printf("prefix[%s] cmd[%s] params[%v]\n", prefix, cmd, params)
 		switch {
 		case prefix == "PING":
 			fmt.Fprintf(conn, "PONG %s\r\n", cmd)
