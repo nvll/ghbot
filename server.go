@@ -101,8 +101,8 @@ func startServer(parent chan bool, cfg Config, msg chan string) {
 
 			json_blob, err = sendHTTPRequest("GET", request_url)
 			if err := json.Unmarshal(json_blob, &events); err != nil {
+				log.Printf("Couldn't parse config json for user %s: %s", cfg.Users[u], err.Error())
 				log.Printf("%v\n", string(json_blob))
-				log.Fatal("Couldn't parse config json: ", err.Error())
 				continue
 			}
 
