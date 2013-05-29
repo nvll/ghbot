@@ -192,7 +192,6 @@ func irc(cfg Config, parent chan bool, msg chan string) {
 		switch {
 		case prefix == "PING":
 			fmt.Fprintf(conn, "PONG %s\r\n", cmd)
-			fmt.Printf("PONG %s\r\n", cmd)
 
 		case cmd == RPL_ENDOFMOTD, cmd == ERR_NOMOTD:
 			for i := 0; i < len(cfg.Channels); i++ {
