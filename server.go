@@ -103,6 +103,7 @@ func startServer(parent chan bool, cfg Config, msg chan string) {
 			if err := json.Unmarshal(json_blob, &events); err != nil {
 				log.Printf("%v\n", string(json_blob))
 				log.Fatal("Couldn't parse config json: ", err.Error())
+				continue
 			}
 
 			for i := 0; i < len(events); i++ {

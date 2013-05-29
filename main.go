@@ -16,7 +16,7 @@ type Config struct {
 	Users        []string
 	ClientId     string
 	ClientSecret string
-	PollTime	 int
+	PollTime     int
 }
 
 func main() {
