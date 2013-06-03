@@ -152,7 +152,6 @@ func msgListener(cfg Config, conn net.Conn, msg chan string) {
 	for {
 		select {
 		case recv = <-msg:
-			log.Printf("got [%v]\n", recv)
 			for i := 0; i < len(cfg.Channels); i++ {
 				fmt.Fprintf(conn, "PRIVMSG %s :%s", cfg.Channels[i], recv)
 			}
