@@ -71,11 +71,15 @@ func sendHTTPRequest(method, url string) ([]byte, error) {
 
 	request.Header.Add("Accept", "application/json")
 	if resp, err = client.Do(request); err != nil {
-		return nil, fmt.Errorf("request failed %s\n", err.Error())
+		return nil, fmt.Errorf("request failed %s", err.Error())
+	}
+
+	if resp.Header.Get("Status") != "200 OK" {
+		return nil, fmt.Errorf("%s %s", url, resp.Header.Get("Status"))
 	}
 
 	if json_blob, err = ioutil.ReadAll(resp.Body); err != nil {
-		return nil, fmt.Errorf("couldn't parse response %s\n", err.Error())
+		return nil, fmt.Errorf("couldn't parse response %s", err.Error())
 	}
 
 	resp.Body.Close()
@@ -99,7 +103,11 @@ func startServer(parent chan bool, cfg Config, msg chan string) {
 		for u := 0; u < len(cfg.Users); u++ {
 			request_url := fmt.Sprintf("https://api.github.com/users/%s/events?client_id=%s&client_secret=%s", cfg.Users[u], cfg.ClientId, cfg.ClientSecret)
 
-			json_blob, err = sendHTTPRequest("GET", request_url)
+			if json_blob, err = sendHTTPRequest("GET", request_url); err != nil {
+				log.Printf("Bad HTTP request [%s]\n", err)
+				continue
+			}
+
 			if err := json.Unmarshal(json_blob, &events); err != nil {
 				log.Printf("Couldn't parse config json for user %s: %s", cfg.Users[u], err.Error())
 				log.Printf("%v\n", string(json_blob))

@@ -187,7 +187,7 @@ func irc(cfg Config, parent chan bool, msg chan string) {
 		prefix = ret[0]
 		cmd = ret[1]
 		params = ret[2:]
-        _ = params
+		_ = params
 
 		switch {
 		case prefix == "PING":

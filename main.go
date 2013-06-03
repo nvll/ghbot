@@ -27,6 +27,8 @@ func main() {
 	var msg = make(chan string)
 	var filename string
 
+	cfg.PollTime = 300 // default
+
 	if len(os.Args) > 1 {
 		filename = os.Args[1]
 	} else {
