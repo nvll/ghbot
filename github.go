@@ -123,11 +123,16 @@ func startServer(parent chan bool, cfg Config, msg chan string) {
 					}
 
 					if event_time.After(last_poll_time) {
-						for c := 0; c < len(events[i].Payload.Commits); c++ {
-							s := fmt.Sprintf("%s pushed to [%s] \"%s\"\n", events[i].Actor.Login, events[i].Repo.Name, strings.Split(events[i].Payload.Commits[c].Message, "\n")[0])
+                        if (len(events[i].Payload.Commits) == 1) {
+							s := fmt.Sprintf("%s pushed to [%s] \"%s\"\n", events[i].Actor.Login, events[i].Repo.Name, strings.Split(events[i].Payload.Commits[0].Message, "\n")[0])
 							log.Print(s)
 							msg <- s
-						}
+                        } else {
+                            s := fmt.Sprintf("%s pushed [%s] \"%s\" alongside %d other commit(s)\n", events[i].Actor.Login, events[i].Repo.Name,
+                                       strings.Split(events[i].Payload.Commits[0].Message, "\n")[0], len(events[i].Payload.Commits) - 1);
+                            log.Print(s)
+                            msg <- s
+                        }
 					}
 				}
 			}
